@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 export default function Register() {
     return (
@@ -87,6 +88,29 @@ export default function Register() {
                                 />
                                 <InputError
                                     message={errors.password_confirmation}
+                                />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <RadioGroup name="role">
+                                    <div className="flex items-center gap-3">
+                                        <RadioGroupItem
+                                            value="student"
+                                            id="student"
+                                        />
+                                        <Label htmlFor="student">Student</Label>
+                                    </div>
+
+                                    <div className="flex items-center gap-3">
+                                        <RadioGroupItem
+                                            value="tutor"
+                                            id="tutor"
+                                        />
+                                        <Label htmlFor="tutor">Tutor</Label>
+                                    </div>
+                                </RadioGroup>
+                                <InputError
+                                    message={errors.role}
                                 />
                             </div>
 
