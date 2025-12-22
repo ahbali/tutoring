@@ -16,12 +16,12 @@ import { edit } from '@/routes/profile';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Profile settings',
+        title: 'Complete settings',
         href: edit().url,
     },
 ];
 
-export default function Profile({
+export default function Complete({
     mustVerifyEmail,
     status,
 }: {
@@ -32,12 +32,12 @@ export default function Profile({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Profile settings" />
+            <Head title="Complete settings" />
 
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
-                        title="Profile information"
+                        title="Complete information"
                         description="Update your name and email address"
                     />
 

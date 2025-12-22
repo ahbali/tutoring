@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompleteProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -14,6 +15,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+
+    Route::get('/profile/complete', [CompleteProfileController::class, 'edit']);
 });
+
 
 require __DIR__.'/settings.php';
