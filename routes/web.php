@@ -18,6 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::get('/profile/complete', [CompleteProfileController::class, 'edit']);
+    Route::put('/profile/complete', [CompleteProfileController::class, 'update']);
 });
 
 
