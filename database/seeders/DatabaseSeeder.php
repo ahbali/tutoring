@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Student',
                 'password' => 'password',
-                'role' => 'tutor',
+                'role' => 'student',
                 'email_verified_at' => now(),
             ]
         );

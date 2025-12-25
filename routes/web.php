@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CompleteProfileController;
+use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -12,14 +12,17 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::middleware(EnsureUserHasRole::class.':tutor')->group(function () {
+        Route::get('tutor/dashboard', function () {
+            return Inertia::render('tutor/dashboard');
+        })->name('tutor.dashboard');
+    });
 
-
-    Route::get('/profile/complete', [CompleteProfileController::class, 'edit']);
-    Route::put('/profile/complete', [CompleteProfileController::class, 'update']);
+    Route::middleware(EnsureUserHasRole::class.':student')->group(function () {
+        Route::get('student/dashboard', function () {
+            return Inertia::render('student/dashboard');
+        })->name('student.dashboard');
+    });
 });
-
 
 require __DIR__.'/settings.php';

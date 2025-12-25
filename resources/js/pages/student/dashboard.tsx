@@ -1,8 +1,8 @@
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
+import { dashboard } from '@/routes/student';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -16,7 +16,7 @@ export default function Dashboard() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="p-4">
-                <Button className="cursor-pointer">Complete your profile</Button>
+                <Button className="cursor-pointer">Hi, noob</Button>
             </div>
         </AppLayout>
     );
