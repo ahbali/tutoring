@@ -10,6 +10,7 @@ test('new users can register', function () {
     $response = $this->post(route('register.store'), [
         'name' => 'Test User',
         'email' => 'test@example.com',
+        'role' => 'tutor',
         'password' => 'password',
         'password_confirmation' => 'password',
     ]);

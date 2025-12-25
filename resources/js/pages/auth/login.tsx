@@ -43,7 +43,6 @@ export default function Login({
                                     id="email"
                                     type="email"
                                     name="email"
-                                    value="test@example.com"
                                     required
                                     autoFocus
                                     tabIndex={1}
@@ -70,7 +69,6 @@ export default function Login({
                                     id="password"
                                     type="password"
                                     name="password"
-                                    value="password"
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"

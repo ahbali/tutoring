@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Student;
 use App\Models\Tutor;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -14,9 +15,19 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::query()->firstOrCreate(
-            ['email' => 'test@example.com'],
+            ['email' => 'tutor@example.com'],
             [
-                'name' => 'Test User',
+                'name' => 'Tutor',
+                'password' => 'password',
+                'role' => 'tutor',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        User::query()->firstOrCreate(
+            ['email' => 'student@example.com'],
+            [
+                'name' => 'Student',
                 'password' => 'password',
                 'role' => 'tutor',
                 'email_verified_at' => now(),
@@ -24,6 +35,7 @@ class DatabaseSeeder extends Seeder
         );
 
         Tutor::query()->create(['user_id' => 1]);
+        Student::query()->create(['user_id' => 2]);
 
         $this->call([
             LanguageSeeder::class,
