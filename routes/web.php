@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Student\DashboardController;
 use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,9 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(EnsureUserHasRole::class.':student')->group(function () {
-        Route::get('student/dashboard', function () {
-            return Inertia::render('student/dashboard');
-        })->name('student.dashboard');
+        Route::get('student/dashboard', [DashboardController::class, 'index'])->name('student.dashboard');
     });
 });
 

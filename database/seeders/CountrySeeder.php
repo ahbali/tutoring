@@ -13,16 +13,16 @@ class CountrySeeder extends Seeder
     public function run(): void
     {
         $countries = [
-            ['name' => 'India'],
-            ['name' => 'China'],
-            ['name' => 'United States'],
-            ['name' => 'Indonesia'],
-            ['name' => 'Pakistan'],
-            ['name' => 'Nigeria'],
-            ['name' => 'Brazil'],
-            ['name' => 'Bangladesh'],
-            ['name' => 'Russia'],
-            ['name' => 'Mexico'],
+            ['name' => 'India', 'code' => 'in'],
+            ['name' => 'China', 'code' => 'cn'],
+            ['name' => 'United States', 'code' => 'us'],
+            ['name' => 'Indonesia', 'code' => 'id'],
+            ['name' => 'Pakistan', 'code' => 'pk'],
+            ['name' => 'Nigeria', 'code' => 'ng'],
+            ['name' => 'Brazil', 'code' => 'br'],
+            ['name' => 'Bangladesh', 'code' => 'bd'],
+            ['name' => 'Russia', 'code' => 'ru'],
+            ['name' => 'Mexico', 'code' => 'mx'],
         ];
 
         Country::query()->insert($countries);

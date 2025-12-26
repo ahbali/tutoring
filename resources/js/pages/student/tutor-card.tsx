@@ -8,6 +8,7 @@ const TutorCard = ({
     reviews,
     rating,
     lessons,
+    image,
 }: {
     name: string;
     country_code: string;
@@ -15,13 +16,10 @@ const TutorCard = ({
     reviews: number;
     rating: number;
     lessons: number;
+    image: string;
 }) => (
     <div className="flex gap-x-2 overflow-hidden rounded border border-gray-200 shadow-sm">
-        <img
-            src="https://plus.unsplash.com/premium_photo-1668319914124-57301e0a1850?q=80&w=1287&auto=format&fit=crop"
-            alt="profile"
-            className="size-56 object-cover"
-        />
+        <img src={image} alt="profile" className="size-56 object-cover" />
 
         <div className="flex flex-1 flex-col justify-between p-4">
             <div>
@@ -44,7 +42,7 @@ const TutorCard = ({
                     </div>
                 </div>
 
-                <ul className="mt-4 flex gap-x-4">
+                <ul className="mt-4 flex justify-between gap-x-4">
                     <li>
                         <div className="flex items-center gap-x-1">
                             <span className="font-bold">{rating}</span>

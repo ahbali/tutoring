@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -16,8 +17,8 @@ class Tutor extends Model
         'user_id',
     ];
 
-    public function user(): HasOne {
-        return $this->hasOne(User::class);
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
     }
 
     public function languages(): BelongsToMany {
@@ -30,5 +31,9 @@ class Tutor extends Model
 
     public function tags(): BelongsToMany {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function country(): BelongsTo {
+        return $this->belongsTo(Country::class);
     }
 }

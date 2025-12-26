@@ -12,20 +12,34 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Dashboard() {
+export default function Dashboard({
+    tutors,
+}: {
+    tutors: {
+        name: string;
+        user: { name: string; image: string };
+        country: { code: string };
+    }[];
+}) {
+    console.log(tutors);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
             <div className="p-4">
-                <div className="grid grid-cols-3">
-                    <TutorCard
-                        name="Fuzzy"
-                        country_code="ma"
-                        reviews={80}
-                        rating={4.5}
-                        lessons={50}
-                        speciality="Programming"
-                    />
+                <div className="grid grid-cols-3 gap-8">
+                    {tutors.map((tutor, index) => (
+                        <TutorCard
+                            key={index}
+                            name={tutor.user.name}
+                            country_code={tutor.country.code.toLowerCase()}
+                            speciality="Mathematics"
+                            reviews={120}
+                            rating={4.9}
+                            lessons={300}
+                            image={tutor.user.image}
+                        />
+                    ))}
                 </div>
             </div>
         </AppLayout>
