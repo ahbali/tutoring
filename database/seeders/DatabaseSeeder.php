@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
+use App\Models\Language;
+use App\Models\Speciality;
 use App\Models\Student;
+use App\Models\Tag;
 use App\Models\Tutor;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -23,38 +26,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::query()->firstOrCreate(
-            ['email' => 'tutor@example.com'],
-            [
-                'name' => 'Tutor',
-                'password' => 'password',
-                'role' => 'tutor',
-                'email_verified_at' => now(),
-                'image' => images[array_rand(images)]
-            ]
-        );
-
-        User::query()->firstOrCreate(
-            ['email' => 'student@example.com'],
-            [
-                'name' => 'Student',
-                'password' => 'password',
-                'role' => 'student',
-                'email_verified_at' => now(),
-                'image' => images[array_rand(images)]
-            ]
-        );
-
         $this->call([
             LanguageSeeder::class,
             SpecialitySeeder::class,
             TagSeeder::class,
             CountrySeeder::class
         ]);
-
-        Tutor::query()->create(['user_id' => 1, 'country_id' => 1]);
-        Student::query()->create(['user_id' => 2]);
-
 
         User::factory(10)->create()->each(function ($user, $index) {
             $user->update([
@@ -64,7 +41,16 @@ class DatabaseSeeder extends Seeder
             Tutor::factory()->create([
                 'user_id' => $user->id,
                 'country_id' => Country::query()->inRandomOrder()->value('id')
-            ]);
+            ])->each(function ($tutor) {
+                $languages = Language::query()->inRandomOrder()->take(rand(1, 3))->pluck('id');
+                $specialities = Speciality::query()->inRandomOrder()->take(rand(1, 3))->pluck('id');
+
+                $tutor->languages()->sync($languages);
+                $tutor->specialities()->sync($specialities);
+
+                $tags = Tag::query()->whereIn('speciality_id', $specialities)->inRandomOrder()->take(rand(1, 5))->pluck('id');
+                $tutor->tags()->sync($tags);
+            });
         });
     }
 }

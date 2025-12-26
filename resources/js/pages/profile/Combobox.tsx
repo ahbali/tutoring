@@ -48,7 +48,7 @@ const Combobox = ({
                 <Command>
                     <CommandInput placeholder={`Search options...`} />
                     <CommandList>
-                        <CommandEmpty>No {placeholder} found.</CommandEmpty>
+                        <CommandEmpty>No results found.</CommandEmpty>
                         <CommandGroup>
                             {data.map((item) => (
                                 <CommandItem

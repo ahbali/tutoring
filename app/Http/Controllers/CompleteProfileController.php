@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\Language;
 use App\Models\Speciality;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;

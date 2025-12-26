@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompleteProfileController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('tutor/dashboard', function () {
             return Inertia::render('tutor/dashboard');
         })->name('tutor.dashboard');
+
+        Route::get('student/dashboard', function () {
+            return Inertia::render('student/dashboard');
+        })->name('student.dashboard');
     });
+
+    Route::get('profile/complete', [CompleteProfileController::class, 'edit'])->name('profile.complete.edit');
+    Route::put('profile/complete', [CompleteProfileController::class, 'update'])->name('profile.complete.update');
 
     Route::middleware(EnsureUserHasRole::class.':student')->group(function () {
         Route::get('student/dashboard', [DashboardController::class, 'index'])->name('student.dashboard');
