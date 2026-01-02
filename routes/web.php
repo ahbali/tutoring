@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CompleteProfileController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Middleware\EnsureUserHasRole;
@@ -22,6 +23,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('student/dashboard', function () {
             return Inertia::render('student/dashboard');
         })->name('student.dashboard');
+    });
+
+    Route::middleware(EnsureUserHasRole::class.':student')->group(function () {
+        Route::post('bookings', [BookingController::class, 'store'])->name('booking.store');
     });
 
     Route::get('profile/complete', [CompleteProfileController::class, 'edit'])->name('profile.complete.edit');
