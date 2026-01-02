@@ -1,4 +1,5 @@
 import { index } from '@/actions/App/Http/Controllers/Student/DashboardController';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import Combobox from '@/pages/profile/Combobox';
@@ -72,6 +73,12 @@ export default function Dashboard({
         formRef.current?.submit();
     }, [params, tutorName]);
 
+    const reset = () => {
+        setSelectedSpeciality('');
+        setSelectedTag('');
+        setTutorName('');
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -115,6 +122,10 @@ export default function Dashboard({
                         value={tutorName}
                         onChange={(e) => setTutorName(e.target.value)}
                     />
+
+                    <Button onClick={reset} className="cursor-pointer">
+                        Reset filters
+                    </Button>
                 </Form>
 
                 <div className="grid grid-cols-2 gap-4">
