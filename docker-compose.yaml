@@ -1,6 +1,9 @@
 networks:
   tutoring:
 
+volumes:
+  postgres-volume:
+
 services:
   nginx:
     image: nginx:stable-alpine
@@ -23,7 +26,7 @@ services:
     ports:
       - "6543:5432"
     volumes:
-      - ./postgres:/var/lib/postgresql/18/docker
+      - postgres-volume:/var/lib/postgresql/18/docker
     environment:
       - POSTGRES_DB=tutoring
       - POSTGRES_USER=tutoring
@@ -34,7 +37,7 @@ services:
   php:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: php.Dockerfile
     container_name: php
     volumes:
       - ./:/var/www/html
@@ -53,7 +56,9 @@ services:
       - tutoring
 
   npm:
-    image: node:24
+    build:
+      context: .
+      dockerfile: npm.Dockerfile
     container_name: npm
     volumes:
       - ./:/var/www/html
