@@ -5,7 +5,6 @@ use App\Http\Controllers\CompleteProfileController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -21,9 +20,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(EnsureUserHasRole::class.':tutor')->group(function () {
-        Route::get('tutor/dashboard', function () {
-            return Inertia::render('tutor/dashboard');
-        })->name('tutor.dashboard');
+        Route::get('tutor/dashboard', [\App\Http\Controllers\Tutor\DashboardController::class, 'index'])->name('tutor.dashboard');
 
         Route::get('tutor/bookings', [\App\Http\Controllers\Tutor\BookingController::class, 'index'])->name('tutor.bookings.index');
         Route::patch('tutor/bookings/{booking}', [\App\Http\Controllers\Tutor\BookingController::class, 'update'])->name('tutor.bookings.update');
