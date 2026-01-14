@@ -1,5 +1,7 @@
+import { update } from '@/actions/App/Http/Controllers/Tutor/BookingController';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
     Card,
     CardContent,
@@ -10,8 +12,8 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes/tutor';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import { Calendar, CheckCircle, Clock } from 'lucide-react';
+import { Head, router } from '@inertiajs/react';
+import { Calendar, Check, CheckCircle, Clock, X } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,10 +41,20 @@ interface Props {
         pending_requests: number;
         upcoming_sessions: number;
     };
+    pendingBookings: Booking[];
     upcomingBookings: Booking[];
+    counts: {
+        pending: number;
+        upcoming: number;
+    };
 }
 
-export default function Dashboard({ stats, upcomingBookings }: Props) {
+export default function Dashboard({
+    stats,
+    pendingBookings,
+    upcomingBookings,
+    counts,
+}: Props) {
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             weekday: 'short',
@@ -51,6 +63,19 @@ export default function Dashboard({ stats, upcomingBookings }: Props) {
             hour: '2-digit',
             minute: '2-digit',
         });
+    };
+
+    const handleStatusUpdate = (
+        bookingId: number,
+        status: 'confirmed' | 'rejected',
+    ) => {
+        router.patch(
+            update(bookingId).url,
+            { status },
+            {
+                preserveScroll: true,
+            },
+        );
     };
 
     return (
@@ -100,13 +125,97 @@ export default function Dashboard({ stats, upcomingBookings }: Props) {
                     </Card>
                 </div>
 
-                <div className="grid gap-4">
+                <div className="grid gap-4 md:grid-cols-2">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Pending Requests</CardTitle>
+                            <CardDescription>
+                                {counts.pending > 5
+                                    ? `Showing the latest 5 of ${counts.pending} pending requests.`
+                                    : `You have ${counts.pending} pending requests.`}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-4">
+                                {pendingBookings.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">
+                                        No pending requests.
+                                    </p>
+                                ) : (
+                                    pendingBookings.map((booking) => (
+                                        <div
+                                            key={booking.id}
+                                            className="flex items-center justify-between"
+                                        >
+                                            <div className="flex items-center">
+                                                <Avatar className="h-9 w-9">
+                                                    <AvatarFallback>
+                                                        {booking.student.user.name.charAt(
+                                                            0,
+                                                        )}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <div className="ml-4 space-y-1">
+                                                    <p className="text-sm leading-none font-medium">
+                                                        {
+                                                            booking.student.user
+                                                                .name
+                                                        }
+                                                    </p>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        {formatDate(
+                                                            booking.start,
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="h-8 w-8 border-red-200 p-0 text-red-600 hover:bg-red-50 hover:text-red-700"
+                                                    onClick={() =>
+                                                        handleStatusUpdate(
+                                                            booking.id,
+                                                            'rejected',
+                                                        )
+                                                    }
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                    <span className="sr-only">
+                                                        Reject
+                                                    </span>
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    className="h-8 w-8 bg-green-600 p-0 hover:bg-green-700"
+                                                    onClick={() =>
+                                                        handleStatusUpdate(
+                                                            booking.id,
+                                                            'confirmed',
+                                                        )
+                                                    }
+                                                >
+                                                    <Check className="h-4 w-4" />
+                                                    <span className="sr-only">
+                                                        Accept
+                                                    </span>
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+
                     <Card>
                         <CardHeader>
                             <CardTitle>Upcoming Sessions</CardTitle>
                             <CardDescription>
-                                You have {upcomingBookings.length} sessions
-                                coming up.
+                                {counts.upcoming > 5
+                                    ? `Showing the latest 5 of ${counts.upcoming} upcoming sessions.`
+                                    : `You have ${counts.upcoming} sessions coming up.`}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
