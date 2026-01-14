@@ -6,12 +6,17 @@ use App\Http\Controllers\Student\DashboardController;
 use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
+    if (auth()->check()) {
+        return match (auth()->user()->role) {
+            'tutor' => redirect()->route('tutor.dashboard'),
+            'student' => redirect()->route('student.dashboard'),
+            default => redirect()->route('login'),
+        };
+    }
+
+    return redirect()->route('login');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
