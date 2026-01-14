@@ -1,3 +1,4 @@
+import { edit as profileDetails } from '@/actions/App/Http/Controllers/ProfileDetailsController';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -14,7 +15,7 @@ import { dashboard as studentDashboard } from '@/routes/student';
 import { dashboard as tutorDashboard } from '@/routes/tutor';
 import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LayoutGrid } from 'lucide-react';
+import { LayoutGrid, UserCircle } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
@@ -30,6 +31,14 @@ export function AppSidebar() {
             icon: LayoutGrid,
         },
     ];
+
+    if (auth.user.role === 'tutor') {
+        mainNavItems.push({
+            title: 'Profile Details',
+            href: profileDetails(),
+            icon: UserCircle,
+        });
+    }
 
     return (
         <Sidebar collapsible="icon" variant="inset">

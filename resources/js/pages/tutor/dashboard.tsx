@@ -1,4 +1,3 @@
-import { edit } from '@/actions/App/Http/Controllers/CompleteProfileController';
 import { update } from '@/actions/App/Http/Controllers/Tutor/BookingController';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +12,7 @@ import {
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes/tutor';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Calendar, CheckCircle, Clock } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -51,14 +50,17 @@ export default function Dashboard({
     upcomingBookings,
     pendingBookings,
 }: Props) {
-    const { patch, processing } = useForm();
+    const { patch, processing, setData } = useForm({
+        status: '' as 'confirmed' | 'rejected' | '',
+    });
 
     const handleStatusUpdate = (
         id: number,
         status: 'confirmed' | 'rejected',
     ) => {
+        setData('status', status);
         patch(update(id).url, {
-            data: { status },
+            preserveScroll: true,
         });
     };
 
@@ -229,12 +231,6 @@ export default function Dashboard({
                             </div>
                         </CardContent>
                     </Card>
-                </div>
-
-                <div className="mt-4">
-                    <Button variant="secondary" asChild>
-                        <Link href={edit().url}>Complete your profile</Link>
-                    </Button>
                 </div>
             </div>
         </AppLayout>

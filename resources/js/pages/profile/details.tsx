@@ -1,4 +1,4 @@
-import CompleteProfileController from '@/actions/App/Http/Controllers/CompleteProfileController';
+import ProfileDetailsController from '@/actions/App/Http/Controllers/ProfileDetailsController';
 import InputError from '@/components/input-error';
 import { MultiSelect } from '@/components/multi-select';
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ interface Props {
     }[];
 }
 
-const Complete = ({ tutor, countries, languages, specialities }: Props) => {
+const Details = ({ tutor, countries, languages, specialities }: Props) => {
     const [selectedCountry, setSelectedCountry] = useState(
         tutor.country?.name ?? '',
     );
@@ -71,12 +71,12 @@ const Complete = ({ tutor, countries, languages, specialities }: Props) => {
 
     return (
         <AppLayout>
-            <Head title="Dashboard" />
+            <Head title="Profile Details" />
 
             <div className="grid grid-cols-2 p-4">
                 <Form
-                    action={CompleteProfileController.update().url}
-                    method={CompleteProfileController.update().method}
+                    action={ProfileDetailsController.update().url}
+                    method={ProfileDetailsController.update().method}
                     options={{
                         preserveScroll: true,
                     }}
@@ -261,4 +261,4 @@ const Complete = ({ tutor, countries, languages, specialities }: Props) => {
     );
 };
 
-export default Complete;
+export default Details;

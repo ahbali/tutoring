@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProfileCompleteUpdateRequest extends FormRequest
+class ProfileDetailsUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -38,7 +38,7 @@ class ProfileCompleteUpdateRequest extends FormRequest
             ],
 
             'country' => 'required|string|exists:countries,name',
-            'bio' => 'required|string',
+            'bio' => 'nullable|string',
             'languages' => 'required|array',
             'specialities' => 'required|array',
             'tags' => [

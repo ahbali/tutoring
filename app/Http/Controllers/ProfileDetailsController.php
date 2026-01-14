@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileCompleteUpdateRequest;
+use App\Http\Requests\ProfileDetailsUpdateRequest;
 use App\Models\Country;
 use App\Models\Language;
 use App\Models\Speciality;
@@ -15,13 +15,13 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
 
-class CompleteProfileController extends Controller
+class ProfileDetailsController extends Controller
 {
     public function edit(): Response
     {
         $specialities = Speciality::query()->with('tags')->get();
 
-        return Inertia::render('profile/complete', [
+        return Inertia::render('profile/details', [
             'tutor' => Auth::user()->tutor->load('country', 'languages', 'specialities', 'tags'),
             'countries' => Country::all(),
             'languages' => Language::all(),
@@ -32,7 +32,7 @@ class CompleteProfileController extends Controller
     /**
      * @throws Throwable
      */
-    public function update(ProfileCompleteUpdateRequest $request, User $user): RedirectResponse
+    public function update(ProfileDetailsUpdateRequest $request, User $user): RedirectResponse
     {
         $languagesIds = Language::query()->whereIn('language', $request->validated('languages'))->pluck('id');
         $specialitiesIds = Speciality::query()->whereIn('title', $request->validated('specialities'))->pluck('id');
