@@ -19,7 +19,10 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect(match ($user->role) {
+        'tutor' => route('tutor.dashboard', absolute: false),
+        'student' => route('student.dashboard', absolute: false),
+    });
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {

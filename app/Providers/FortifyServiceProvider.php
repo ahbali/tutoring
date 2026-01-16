@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Contracts\VerifyEmailResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 
@@ -23,7 +24,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse
+        {
             public function toResponse($request): RedirectResponse
             {
                 if ($request->user()->role === 'tutor') {
@@ -38,7 +40,8 @@ class FortifyServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
+        $this->app->instance(RegisterResponse::class, new class implements RegisterResponse
+        {
             public function toResponse($request): RedirectResponse
             {
                 if ($request->user()->role === 'tutor') {
@@ -47,6 +50,22 @@ class FortifyServiceProvider extends ServiceProvider
 
                 if ($request->user()->role === 'student') {
                     return redirect()->route('student.dashboard');
+                }
+
+                return redirect()->route('login');
+            }
+        });
+
+        $this->app->instance(VerifyEmailResponse::class, new class implements VerifyEmailResponse
+        {
+            public function toResponse($request): RedirectResponse
+            {
+                if ($request->user()->role === 'tutor') {
+                    return redirect()->route('tutor.dashboard', ['verified' => 1]);
+                }
+
+                if ($request->user()->role === 'student') {
+                    return redirect()->route('student.dashboard', ['verified' => 1]);
                 }
 
                 return redirect()->route('login');

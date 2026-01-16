@@ -18,6 +18,14 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
 
+Route::get('/dashboard', function () {
+    return match (auth()->user()->role) {
+        'tutor' => redirect()->route('tutor.dashboard'),
+        'student' => redirect()->route('student.dashboard'),
+        default => redirect()->route('home'),
+    };
+})->middleware(['auth'])->name('dashboard');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(EnsureUserHasRole::class.':tutor')->group(function () {
         Route::get('tutor/dashboard', [\App\Http\Controllers\Tutor\DashboardController::class, 'index'])->name('tutor.dashboard');
