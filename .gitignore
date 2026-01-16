@@ -26,3 +26,10 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+.aiignore
+boost.json
+guidelines.md
+mcp.json
+
+docker-build.sh
