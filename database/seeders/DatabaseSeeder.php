@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             TutorSeeder::class,
             StudentSeeder::class,
-            BookingSeeder::class,
+            // BookingSeeder::class,
         ]);
     }
 }

@@ -17,8 +17,8 @@ it('status is set to pending right after booking', function () {
 
     $this->post('/bookings', [
         'tutor_id' => $tutor->id,
-        'start' => '2026-01-02T08:00:00Z',
-        'end' => '2026-01-02T10:00:00Z',
+        'start' => now()->addDays(2)->startOfHour()->toIso8601String(),
+        'end' => now()->addDays(2)->startOfHour()->addHours(2)->toIso8601String(),
     ]);
 
     $this->assertDatabaseHas('bookings', [
@@ -38,21 +38,21 @@ it('student cannot book unavailable time slot', function () {
     Booking::query()->create([
         'tutor_id' => $tutor->id,
         'student_id' => $student->id,
-        'start' => '2026-01-01T00:00:00Z',
-        'end' => '2026-01-01T02:00:00Z',
+        'start' => now()->addDays(2)->startOfHour()->toIso8601String(),
+        'end' => now()->addDays(2)->startOfHour()->addHours(2)->toIso8601String(),
         'status' => 'confirmed',
     ]);
 
     $this->post('/bookings', [
         'tutor_id' => $tutor->id,
-        'start' => '2026-01-01T00:00:00Z',
-        'end' => '2026-01-01T02:00:00Z',
+        'start' => now()->addDays(2)->startOfHour()->toIso8601String(),
+        'end' => now()->addDays(2)->startOfHour()->addHours(2)->toIso8601String(),
     ]);
 
     $this->post('/bookings', [
         'tutor_id' => $tutor->id,
-        'start' => '2026-01-01T00:30:00Z',
-        'end' => '2026-01-01T01:30:00Z',
+        'start' => now()->addDays(2)->startOfHour()->addMinutes(30)->toIso8601String(),
+        'end' => now()->addDays(2)->startOfHour()->addHours(1)->addMinutes(30)->toIso8601String(),
     ]);
 
     $this->assertDatabaseCount('bookings', 1);
@@ -66,8 +66,8 @@ it('disallows booking half an hour sessions', function () {
 
     $response = $this->post('/bookings', [
         'tutor_id' => $tutor->id,
-        'start' => '2026-01-02T08:00:00Z',
-        'end' => '2026-01-02T08:30:00Z',
+        'start' => now()->addDays(2)->startOfHour()->toIso8601String(),
+        'end' => now()->addDays(2)->startOfHour()->addMinutes(30)->toIso8601String(),
     ]);
 
     $response->assertSessionHasErrors(['start' => 'The session must be booked in full hours.']);
@@ -81,11 +81,28 @@ it('disallows booking sessions that do not start at the beginning of an hour', f
 
     $response = $this->post('/bookings', [
         'tutor_id' => $tutor->id,
-        'start' => '2026-01-02T08:15:00Z',
-        'end' => '2026-01-02T09:15:00Z',
+        'start' => now()->addDays(2)->startOfHour()->addMinutes(15)->toIso8601String(),
+        'end' => now()->addDays(2)->startOfHour()->addHours(1)->addMinutes(15)->toIso8601String(),
     ]);
 
     $response->assertSessionHasErrors(['start' => 'The session must start at the beginning of an hour (e.g., 10:00).']);
+});
+
+it('disallows booking in the past', function () {
+    $user = User::factory()->create(['role' => 'student']);
+    $student = Student::factory()->for($user)->create();
+    $this->actingAs($user);
+
+    $tutor = Tutor::factory()->for(User::factory())->create();
+
+    $response = $this->post('/bookings', [
+        'tutor_id' => $tutor->id,
+        'start' => now()->subDay()->startOfHour()->toIso8601String(),
+        'end' => now()->subDay()->startOfHour()->addHour()->toIso8601String(),
+    ]);
+
+    $response->assertSessionHasErrors(['start']);
+    $this->assertDatabaseCount('bookings', 0);
 });
 
 it('can fetch bookings for a tutor', function () {
@@ -98,8 +115,8 @@ it('can fetch bookings for a tutor', function () {
     Booking::factory()->create([
         'tutor_id' => $tutor->id,
         'student_id' => $student->id,
-        'start' => '2026-01-01T08:00:00Z',
-        'end' => '2026-01-01T09:00:00Z',
+        'start' => now()->addDays(2)->startOfHour()->addHours(8)->toIso8601String(),
+        'end' => now()->addDays(2)->startOfHour()->addHours(9)->toIso8601String(),
         'status' => 'confirmed',
     ]);
 

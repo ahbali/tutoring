@@ -228,6 +228,7 @@ export default function Dashboard({
                                         >
                                             <Avatar className="h-10 w-10 border border-border">
                                                 <AvatarImage
+                                                    className="object-cover"
                                                     src={tutor.user.image}
                                                     alt={tutor.user.name}
                                                 />
@@ -252,7 +253,10 @@ export default function Dashboard({
                                                     </p>
                                                 </div>
                                             </div>
-                                            <Button variant="ghost" size="sm">
+                                            <Button
+                                                size="sm"
+                                                className="cursor-pointer"
+                                            >
                                                 Book
                                             </Button>
                                         </div>

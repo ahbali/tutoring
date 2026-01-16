@@ -17,12 +17,6 @@ class TutorSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Tutor User',
-            'email' => 'tutor@example.com',
-            'role' => 'tutor',
-        ])->each(fn ($user) => $this->createTutorProfile($user, DatabaseSeeder::IMAGES[0]));
-
         User::factory(5)->create(['role' => 'tutor'])->each(function ($user, $index) {
             $this->createTutorProfile($user, DatabaseSeeder::IMAGES[$index % count(DatabaseSeeder::IMAGES)]);
         });

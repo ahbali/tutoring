@@ -35,10 +35,17 @@ export default function BookingPage({ tutor, bookings }: BookingPageProps) {
     ];
 
     const handleDateSelect = (selectInfo: {
+        start: Date;
         startStr: string;
         endStr: string;
         view: { calendar: { unselect: () => void } };
     }) => {
+        if (selectInfo.start < new Date()) {
+            alert('You cannot book a session in the past.');
+            selectInfo.view.calendar.unselect();
+            return;
+        }
+
         const title = confirm(
             `Do you want to book a session from ${selectInfo.startStr} to ${selectInfo.endStr}?`,
         );
