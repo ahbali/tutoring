@@ -38,8 +38,8 @@ class DashboardController extends Controller
         ];
 
         return Inertia::render('student/dashboard', [
-            'upcomingBookings' => Inertia::defer(fn () => $upcomingBookings),
-            'recentTutors' => Inertia::defer(fn () => $recentTutors),
+            'upcomingBookings' => $upcomingBookings,
+            'recentTutors' => $recentTutors,
             'stats' => $stats,
             'counts' => [
                 'upcoming' => $upcomingBookingsCount,

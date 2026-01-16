@@ -7,11 +7,10 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes/student';
 import { type BreadcrumbItem } from '@/types';
-import { Deferred, Head } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { Calendar, CheckCircle, Clock, Users } from 'lucide-react';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 
@@ -145,90 +144,62 @@ export default function Dashboard({
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Deferred
-                                data="upcomingBookings"
-                                fallback={
-                                    <div className="space-y-4">
-                                        {[1, 2, 3].map((i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-center gap-4"
-                                            >
-                                                <Skeleton className="h-10 w-10 rounded-full" />
-                                                <div className="space-y-2">
-                                                    <Skeleton className="h-4 w-32" />
-                                                    <Skeleton className="h-3 w-24" />
-                                                </div>
-                                            </div>
-                                        ))}
+                            <div className="space-y-6">
+                                {upcomingBookings.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center py-8 text-center">
+                                        <Calendar className="h-12 w-12 text-muted-foreground/20" />
+                                        <p className="mt-2 text-sm text-muted-foreground">
+                                            No upcoming sessions. Time to book
+                                            one!
+                                        </p>
                                     </div>
-                                }
-                            >
-                                <div className="space-y-6">
-                                    {upcomingBookings.length === 0 ? (
-                                        <div className="flex flex-col items-center justify-center py-8 text-center">
-                                            <Calendar className="h-12 w-12 text-muted-foreground/20" />
-                                            <p className="mt-2 text-sm text-muted-foreground">
-                                                No upcoming sessions. Time to
-                                                book one!
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        upcomingBookings.map((booking) => (
-                                            <div
-                                                key={booking.id}
-                                                className="flex items-center"
-                                            >
-                                                <Avatar className="h-10 w-10 border border-border">
-                                                    <AvatarImage
-                                                        src={
-                                                            booking.tutor.user
-                                                                .image
-                                                        }
-                                                        alt={
-                                                            booking.tutor.user
-                                                                .name
-                                                        }
-                                                    />
-                                                    <AvatarFallback>
-                                                        {booking.tutor.user.name.charAt(
-                                                            0,
-                                                        )}
-                                                    </AvatarFallback>
-                                                </Avatar>
-                                                <div className="ml-4 flex-1 space-y-1">
-                                                    <p className="text-sm leading-none font-semibold">
+                                ) : (
+                                    upcomingBookings.map((booking) => (
+                                        <div
+                                            key={booking.id}
+                                            className="flex items-center"
+                                        >
+                                            <Avatar className="h-10 w-10 border border-border">
+                                                <AvatarImage
+                                                    src={
+                                                        booking.tutor.user.image
+                                                    }
+                                                    alt={
+                                                        booking.tutor.user.name
+                                                    }
+                                                />
+                                                <AvatarFallback>
+                                                    {booking.tutor.user.name.charAt(
+                                                        0,
+                                                    )}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="ml-4 flex-1 space-y-1">
+                                                <p className="text-sm leading-none font-semibold">
+                                                    {booking.tutor.user.name}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {new Date(
+                                                        booking.start,
+                                                    ).toLocaleDateString(
+                                                        'en-US',
                                                         {
-                                                            booking.tutor.user
-                                                                .name
-                                                        }
-                                                    </p>
-                                                    <p className="text-xs text-muted-foreground">
-                                                        {new Date(
-                                                            booking.start,
-                                                        ).toLocaleDateString(
-                                                            'en-US',
-                                                            {
-                                                                weekday: 'long',
-                                                                month: 'short',
-                                                                day: 'numeric',
-                                                                hour: '2-digit',
-                                                                minute: '2-digit',
-                                                            },
-                                                        )}
-                                                    </p>
-                                                </div>
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                >
-                                                    Details
-                                                </Button>
+                                                            weekday: 'long',
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                        },
+                                                    )}
+                                                </p>
                                             </div>
-                                        ))
-                                    )}
-                                </div>
-                            </Deferred>
+                                            <Button variant="outline" size="sm">
+                                                Details
+                                            </Button>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
                         </CardContent>
                     </Card>
 
@@ -240,80 +211,54 @@ export default function Dashboard({
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Deferred
-                                data="recentTutors"
-                                fallback={
-                                    <div className="space-y-4">
-                                        {[1, 2, 3].map((i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-center gap-4"
-                                            >
-                                                <Skeleton className="h-10 w-10 rounded-full" />
-                                                <div className="space-y-2">
-                                                    <Skeleton className="h-4 w-24" />
-                                                    <Skeleton className="h-3 w-16" />
-                                                </div>
-                                            </div>
-                                        ))}
+                            <div className="space-y-6">
+                                {recentTutors.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center py-8 text-center">
+                                        <Users className="h-12 w-12 text-muted-foreground/20" />
+                                        <p className="mt-2 text-sm text-muted-foreground">
+                                            No tutors yet. Start your journey
+                                            today!
+                                        </p>
                                     </div>
-                                }
-                            >
-                                <div className="space-y-6">
-                                    {recentTutors.length === 0 ? (
-                                        <div className="flex flex-col items-center justify-center py-8 text-center">
-                                            <Users className="h-12 w-12 text-muted-foreground/20" />
-                                            <p className="mt-2 text-sm text-muted-foreground">
-                                                No tutors yet. Start your
-                                                journey today!
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        recentTutors.map((tutor) => (
-                                            <div
-                                                key={tutor.id}
-                                                className="flex items-center"
-                                            >
-                                                <Avatar className="h-10 w-10 border border-border">
-                                                    <AvatarImage
-                                                        src={tutor.user.image}
-                                                        alt={tutor.user.name}
-                                                    />
-                                                    <AvatarFallback>
-                                                        {tutor.user.name.charAt(
-                                                            0,
-                                                        )}
-                                                    </AvatarFallback>
-                                                </Avatar>
-                                                <div className="ml-4 flex-1 space-y-1">
-                                                    <p className="text-sm leading-none font-semibold">
-                                                        {tutor.user.name}
+                                ) : (
+                                    recentTutors.map((tutor) => (
+                                        <div
+                                            key={tutor.id}
+                                            className="flex items-center"
+                                        >
+                                            <Avatar className="h-10 w-10 border border-border">
+                                                <AvatarImage
+                                                    src={tutor.user.image}
+                                                    alt={tutor.user.name}
+                                                />
+                                                <AvatarFallback>
+                                                    {tutor.user.name.charAt(0)}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="ml-4 flex-1 space-y-1">
+                                                <p className="text-sm leading-none font-semibold">
+                                                    {tutor.user.name}
+                                                </p>
+                                                <div className="flex items-center gap-2">
+                                                    {tutor.country && (
+                                                        <span
+                                                            className={`fi fi-${tutor.country.code.toLowerCase()} h-3 w-4 rounded-sm`}
+                                                        ></span>
+                                                    )}
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {tutor.specialities?.[0]
+                                                            ?.title ||
+                                                            'Expert Tutor'}
                                                     </p>
-                                                    <div className="flex items-center gap-2">
-                                                        {tutor.country && (
-                                                            <span
-                                                                className={`fi fi-${tutor.country.code.toLowerCase()} h-3 w-4 rounded-sm`}
-                                                            ></span>
-                                                        )}
-                                                        <p className="text-xs text-muted-foreground">
-                                                            {tutor
-                                                                .specialities?.[0]
-                                                                ?.title ||
-                                                                'Expert Tutor'}
-                                                        </p>
-                                                    </div>
                                                 </div>
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                >
-                                                    Book
-                                                </Button>
                                             </div>
-                                        ))
-                                    )}
-                                </div>
-                            </Deferred>
+                                            <Button variant="ghost" size="sm">
+                                                Book
+                                            </Button>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
                         </CardContent>
                     </Card>
                 </div>
