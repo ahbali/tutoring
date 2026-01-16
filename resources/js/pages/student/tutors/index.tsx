@@ -193,9 +193,9 @@ export default function TutorsIndex({
                                         available tutors.
                                     </p>
                                     <Button
-                                        variant="outline"
-                                        className="mt-4"
+                                        className="mt-4 cursor-pointer"
                                         onClick={reset}
+                                        variant="secondary"
                                     >
                                         Clear all filters
                                     </Button>
