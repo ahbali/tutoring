@@ -100,80 +100,128 @@ export default function Dashboard({
                     </p>
                 </div>
 
-                <div className="space-y-6">
-                    <div className="grid gap-4 md:grid-cols-3">
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    Total Sessions
-                                </CardTitle>
-                                <CheckCircle className="h-4 w-4 text-green-500" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">
-                                    {stats.total_sessions}
-                                </div>
-                                <p className="text-xs text-muted-foreground">
-                                    Total tutoring sessions
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    Pending Requests
-                                </CardTitle>
-                                <Clock className="h-4 w-4 text-yellow-500" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">
-                                    {stats.pending_requests}
-                                </div>
-                                <p className="text-xs text-muted-foreground">
-                                    Requests awaiting your approval
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                <CardTitle className="text-sm font-medium">
-                                    Upcoming Sessions
-                                </CardTitle>
-                                <Calendar className="h-4 w-4 text-blue-500" />
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">
-                                    {stats.upcoming_sessions}
-                                </div>
-                                <p className="text-xs text-muted-foreground">
-                                    Sessions scheduled soon
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Total Sessions
+                            </CardTitle>
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">
+                                {stats.total_sessions}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                Total tutoring sessions
+                            </p>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Pending Requests
+                            </CardTitle>
+                            <Clock className="h-4 w-4 text-yellow-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">
+                                {stats.pending_requests}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                Requests awaiting your approval
+                            </p>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Upcoming Sessions
+                            </CardTitle>
+                            <Calendar className="h-4 w-4 text-blue-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">
+                                {stats.upcoming_sessions}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                Sessions scheduled soon
+                            </p>
+                        </CardContent>
+                    </Card>
+                </div>
 
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Upcoming Sessions</CardTitle>
-                                <CardDescription>
-                                    {counts.upcoming > 5
-                                        ? `Showing the latest 5 of ${counts.upcoming} upcoming sessions.`
-                                        : `You have ${counts.upcoming} sessions coming up.`}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-8">
-                                    {upcomingBookings.length === 0 ? (
-                                        <p className="text-sm text-muted-foreground">
-                                            No upcoming sessions.
-                                        </p>
-                                    ) : (
-                                        upcomingBookings.map((booking) => (
-                                            <div
-                                                key={booking.id}
-                                                className="flex items-center"
-                                            >
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+                    <Card className="md:col-span-1 lg:col-span-4">
+                        <CardHeader>
+                            <CardTitle>Upcoming Sessions</CardTitle>
+                            <CardDescription>
+                                {counts.upcoming > 5
+                                    ? `Showing the latest 5 of ${counts.upcoming} upcoming sessions.`
+                                    : `You have ${counts.upcoming} sessions coming up.`}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-6">
+                                {upcomingBookings.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">
+                                        No upcoming sessions.
+                                    </p>
+                                ) : (
+                                    upcomingBookings.map((booking) => (
+                                        <div
+                                            key={booking.id}
+                                            className="flex items-center"
+                                        >
+                                            <Avatar className="h-10 w-10 border border-border">
+                                                <AvatarFallback>
+                                                    {booking.student.user.name.charAt(
+                                                        0,
+                                                    )}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="ml-4 flex-1 space-y-1">
+                                                <p className="text-sm leading-none font-semibold">
+                                                    {booking.student.user.name}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {formatDate(booking.start)}
+                                                </p>
+                                            </div>
+                                            <div className="ml-auto font-medium">
+                                                <Badge variant="outline">
+                                                    Confirmed
+                                                </Badge>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="md:col-span-1 lg:col-span-3">
+                        <CardHeader>
+                            <CardTitle>Pending Requests</CardTitle>
+                            <CardDescription>
+                                {counts.pending > 5
+                                    ? `Showing the latest 5 of ${counts.pending} pending requests.`
+                                    : `You have ${counts.pending} pending requests.`}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-6">
+                                {pendingBookings.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">
+                                        No pending requests.
+                                    </p>
+                                ) : (
+                                    pendingBookings.map((booking) => (
+                                        <div
+                                            key={booking.id}
+                                            className="flex items-center justify-between"
+                                        >
+                                            <div className="flex flex-1 items-center">
                                                 <Avatar className="h-10 w-10 border border-border">
                                                     <AvatarFallback>
                                                         {booking.student.user.name.charAt(
@@ -181,7 +229,7 @@ export default function Dashboard({
                                                         )}
                                                     </AvatarFallback>
                                                 </Avatar>
-                                                <div className="ml-4 flex-1 space-y-1">
+                                                <div className="ml-4 space-y-1">
                                                     <p className="text-sm leading-none font-semibold">
                                                         {
                                                             booking.student.user
@@ -194,95 +242,40 @@ export default function Dashboard({
                                                         )}
                                                     </p>
                                                 </div>
-                                                <div className="ml-auto font-medium">
-                                                    <Badge variant="outline">
-                                                        Confirmed
-                                                    </Badge>
-                                                </div>
                                             </div>
-                                        ))
-                                    )}
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Pending Requests</CardTitle>
-                                <CardDescription>
-                                    {counts.pending > 5
-                                        ? `Showing the latest 5 of ${counts.pending} pending requests.`
-                                        : `You have ${counts.pending} pending requests.`}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-4">
-                                    {pendingBookings.length === 0 ? (
-                                        <p className="text-sm text-muted-foreground">
-                                            No pending requests.
-                                        </p>
-                                    ) : (
-                                        pendingBookings.map((booking) => (
-                                            <div
-                                                key={booking.id}
-                                                className="flex items-center justify-between"
-                                            >
-                                                <div className="flex flex-1 items-center">
-                                                    <Avatar className="h-10 w-10 border border-border">
-                                                        <AvatarFallback>
-                                                            {booking.student.user.name.charAt(
-                                                                0,
-                                                            )}
-                                                        </AvatarFallback>
-                                                    </Avatar>
-                                                    <div className="ml-4 space-y-1">
-                                                        <p className="text-sm leading-none font-semibold">
-                                                            {
-                                                                booking.student
-                                                                    .user.name
-                                                            }
-                                                        </p>
-                                                        <p className="text-xs text-muted-foreground">
-                                                            {formatDate(
-                                                                booking.start,
-                                                            )}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-2">
-                                                    <Button
-                                                        size="sm"
-                                                        variant="outline"
-                                                        className="h-8"
-                                                        onClick={() =>
-                                                            handleStatusUpdate(
-                                                                booking.id,
-                                                                'rejected',
-                                                            )
-                                                        }
-                                                    >
-                                                        Reject
-                                                    </Button>
-                                                    <Button
-                                                        size="sm"
-                                                        className="h-8"
-                                                        onClick={() =>
-                                                            handleStatusUpdate(
-                                                                booking.id,
-                                                                'confirmed',
-                                                            )
-                                                        }
-                                                    >
-                                                        Approve
-                                                    </Button>
-                                                </div>
+                                            <div className="flex gap-2">
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="h-8"
+                                                    onClick={() =>
+                                                        handleStatusUpdate(
+                                                            booking.id,
+                                                            'rejected',
+                                                        )
+                                                    }
+                                                >
+                                                    Reject
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    className="h-8"
+                                                    onClick={() =>
+                                                        handleStatusUpdate(
+                                                            booking.id,
+                                                            'confirmed',
+                                                        )
+                                                    }
+                                                >
+                                                    Approve
+                                                </Button>
                                             </div>
-                                        ))
-                                    )}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </AppLayout>
