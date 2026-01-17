@@ -17,6 +17,18 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./Dockerfile
+            image: oboumediane/tutoring-app-php
+            name: index.docker.io/oboumediane/tutoring-app-php
+          - dockerfile: ./nginx.Dockerfile
+            image: oboumediane/tutoring-app-nginx
+            name: index.docker.io/oboumediane/tutoring-app-nginx
+
     permissions:
       packages: write
       contents: read
@@ -36,14 +48,14 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5.10.0
         with:
-          images: oboumediane/tutoring-app-php
+          images: ${{ matrix.image }}
 
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v6.18.0
         with:
           context: .
-          file: ./Dockerfile
+          file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -51,6 +63,6 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v3
         with:
-          subject-name: index.docker.io/oboumediane/tutoring-app-php
+          subject-name: ${{ matrix.name }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
