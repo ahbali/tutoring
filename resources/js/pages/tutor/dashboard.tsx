@@ -1,3 +1,4 @@
+import { show } from '@/actions/App/Http/Controllers/BookingController';
 import { update } from '@/actions/App/Http/Controllers/Tutor/BookingController';
 import Heading from '@/components/heading';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -11,12 +12,10 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import { join } from '@/routes/bookings';
 import { dashboard } from '@/routes/tutor';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Calendar, CheckCircle, Clock } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -58,19 +57,6 @@ export default function Dashboard({
     upcomingBookings,
     counts,
 }: Props) {
-    const [now, setNow] = useState(new Date());
-
-    useEffect(() => {
-        const timer = setInterval(() => setNow(new Date()), 10000);
-        return () => clearInterval(timer);
-    }, []);
-
-    const canJoin = (booking: Booking) => {
-        const start = new Date(booking.start);
-        const end = new Date(booking.end);
-        return now >= start && now <= end;
-    };
-
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             weekday: 'short',
@@ -202,21 +188,16 @@ export default function Dashboard({
                                             <div className="ml-auto flex items-center gap-2">
                                                 <Button
                                                     size="sm"
-                                                    disabled={!canJoin(booking)}
-                                                    asChild={canJoin(booking)}
+                                                    variant="outline"
+                                                    asChild
                                                 >
-                                                    {canJoin(booking) ? (
-                                                        <a
-                                                            href={
-                                                                join(booking.id)
-                                                                    .url
-                                                            }
-                                                        >
-                                                            Join session
-                                                        </a>
-                                                    ) : (
-                                                        'Join session'
-                                                    )}
+                                                    <Link
+                                                        href={
+                                                            show(booking.id).url
+                                                        }
+                                                    >
+                                                        Details
+                                                    </Link>
                                                 </Button>
                                                 <Badge variant="outline">
                                                     Confirmed

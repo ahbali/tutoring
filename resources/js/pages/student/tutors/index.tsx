@@ -1,4 +1,5 @@
 import { index } from '@/actions/App/Http/Controllers/Student/TutorController';
+import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import {
     Card,

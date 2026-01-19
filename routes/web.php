@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileDetailsController;
+use App\Http\Controllers\SessionDocumentController;
 use App\Http\Controllers\Student\DashboardController;
 use App\Http\Middleware\EnsureUserHasRole;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +43,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('profile/details', [ProfileDetailsController::class, 'edit'])->name('profile.details.edit');
     Route::put('profile/details', [ProfileDetailsController::class, 'update'])->name('profile.details.update');
 
+    Route::get('bookings/show/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::get('bookings/{booking}/join', [\App\Http\Controllers\BookingJoinController::class, 'join'])->name('bookings.join');
+
+    Route::post('bookings/{booking}/documents', [SessionDocumentController::class, 'store'])->name('bookings.documents.store');
+    Route::get('documents/{document}/download', [SessionDocumentController::class, 'download'])->name('documents.download');
+    Route::delete('documents/{document}', [SessionDocumentController::class, 'destroy'])->name('documents.destroy');
 
     Route::middleware(EnsureUserHasRole::class.':student')->group(function () {
         Route::get('student/dashboard', [DashboardController::class, 'index'])->name('student.dashboard');

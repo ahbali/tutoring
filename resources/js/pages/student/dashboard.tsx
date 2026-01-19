@@ -1,4 +1,4 @@
-import { join } from '@/actions/App/Http/Controllers/BookingJoinController';
+import { show } from '@/actions/App/Http/Controllers/BookingController';
 import Heading from '@/components/heading';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -15,7 +15,6 @@ import { dashboard } from '@/routes/student';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Calendar, CheckCircle, Clock, Users } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -73,19 +72,6 @@ export default function Dashboard({
         upcoming: number;
     };
 }) {
-    const [now, setNow] = useState(new Date());
-
-    useEffect(() => {
-        const timer = setInterval(() => setNow(new Date()), 10000);
-        return () => clearInterval(timer);
-    }, []);
-
-    const canJoin = (booking: Booking) => {
-        const start = new Date(booking.start);
-        const end = new Date(booking.end);
-        return now >= start && now <= end;
-    };
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Student Dashboard" />
@@ -211,26 +197,15 @@ export default function Dashboard({
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
+                                                    asChild
                                                 >
-                                                    Details
-                                                </Button>
-                                                <Button
-                                                    size="sm"
-                                                    disabled={!canJoin(booking)}
-                                                    asChild={canJoin(booking)}
-                                                >
-                                                    {canJoin(booking) ? (
-                                                        <a
-                                                            href={
-                                                                join(booking.id)
-                                                                    .url
-                                                            }
-                                                        >
-                                                            Join session
-                                                        </a>
-                                                    ) : (
-                                                        'Join session'
-                                                    )}
+                                                    <Link
+                                                        href={
+                                                            show(booking.id).url
+                                                        }
+                                                    >
+                                                        Details
+                                                    </Link>
                                                 </Button>
                                             </div>
                                         </div>

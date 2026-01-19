@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBookingRequest;
 use App\Models\Booking;
 use App\Models\Tutor;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class BookingController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(Tutor $tutor): Response
     {
         $tutor->load('user');
@@ -40,6 +43,36 @@ class BookingController extends Controller
                     } : '#94a3b8', // Slate-400 for unavailable
                 ];
             }),
+        ]);
+    }
+
+    public function show(Booking $booking): Response
+    {
+        $this->authorize('view', $booking);
+
+        $booking->load(['tutor.user', 'student.user', 'documents']);
+
+        return Inertia::render('bookings/show', [
+            'booking' => [
+                'id' => $booking->id,
+                'start' => $booking->start->toIso8601String(),
+                'end' => $booking->end->toIso8601String(),
+                'status' => $booking->status,
+                'tutor' => [
+                    'name' => $booking->tutor->user->name,
+                    'image' => $booking->tutor->user->image,
+                ],
+                'student' => [
+                    'name' => $booking->student->user->name,
+                    'image' => $booking->student->user->image,
+                ],
+                'documents' => $booking->documents->map(fn ($doc) => [
+                    'id' => $doc->id,
+                    'filename' => $doc->filename,
+                    'size' => $doc->size,
+                    'created_at' => $doc->created_at->toIso8601String(),
+                ]),
+            ],
         ]);
     }
 
