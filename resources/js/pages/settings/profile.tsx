@@ -3,6 +3,7 @@ import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Form, Head, Link, usePage } from '@inertiajs/react';
 
+import { update } from '@/actions/App/Http/Controllers/Settings/ProfileController';
 import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
@@ -15,12 +16,12 @@ import { edit } from '@/routes/profile';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Complete settings',
+        title: 'Profile settings',
         href: edit().url,
     },
 ];
 
-export default function Complete({
+export default function Profile({
     mustVerifyEmail,
     status,
 }: {
@@ -31,16 +32,17 @@ export default function Complete({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Complete settings" />
+            <Head title="Profile settings" />
 
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
-                        title="Complete information"
+                        title="Profile information"
                         description="Update your name and email address"
                     />
 
                     <Form
+                        {...update.form()}
                         options={{
                             preserveScroll: true,
                         }}

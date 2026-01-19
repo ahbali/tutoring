@@ -6,7 +6,6 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class ProfileDetailsUpdateRequest extends FormRequest
 {
@@ -26,17 +25,6 @@ class ProfileDetailsUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
-            ],
-
             'country' => 'required|string|exists:countries,name',
             'bio' => 'nullable|string',
             'languages' => 'required|array',

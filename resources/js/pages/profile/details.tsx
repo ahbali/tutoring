@@ -3,14 +3,12 @@ import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { MultiSelect } from '@/components/multi-select';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import Combobox from '@/pages/profile/Combobox';
-import { SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Form, Head, usePage } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
 import { useState } from 'react';
 
 interface Tutor {
@@ -53,7 +51,6 @@ const Details = ({ tutor, countries, languages, specialities }: Props) => {
     const [selectedTags, setSelectedTags] = useState(
         tutor.tags.map((t) => t.title),
     );
-    const { auth } = usePage<SharedData>().props;
 
     const tags = specialities
         .filter((speciality) => selectedSpecialities.includes(speciality.title))
@@ -99,46 +96,6 @@ const Details = ({ tutor, countries, languages, specialities }: Props) => {
                         {({ errors, processing, recentlySuccessful }) => {
                             return (
                                 <>
-                                    <div className="grid gap-2">
-                                        <Label htmlFor="name">Name</Label>
-
-                                        <Input
-                                            id="name"
-                                            className="mt-1 block w-full"
-                                            defaultValue={auth.user.name}
-                                            name="name"
-                                            autoComplete="name"
-                                            placeholder="Full name"
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.name}
-                                        />
-                                    </div>
-
-                                    <div className="grid gap-2">
-                                        <Label htmlFor="email">
-                                            Email address
-                                        </Label>
-
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            className="mt-1 block w-full"
-                                            defaultValue={auth.user.email}
-                                            name="email"
-                                            required
-                                            autoComplete="username"
-                                            placeholder="Email address"
-                                        />
-
-                                        <InputError
-                                            className="mt-2"
-                                            message={errors.email}
-                                        />
-                                    </div>
-
                                     <div className="grid gap-2">
                                         <Label htmlFor="bio">
                                             Bio{' '}

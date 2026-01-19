@@ -38,14 +38,8 @@ class ProfileDetailsController extends Controller
         $specialitiesIds = Speciality::query()->whereIn('title', $request->validated('specialities'))->pluck('id');
         $tagsIds = Tag::query()->whereIn('title', $request->validated('tags'))->pluck('id');
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
         DB::transaction(function () use ($tagsIds, $specialitiesIds, $languagesIds, $request) {
             $user = $request->user();
-            $user->fill($request->safe()->only(['name', 'email']));
-            $user->save();
 
             $tutor = $user->tutor;
             $tutor->fill([
