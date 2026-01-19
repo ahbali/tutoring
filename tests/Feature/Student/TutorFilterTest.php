@@ -26,8 +26,8 @@ test('tutors can be filtered by speciality', function () {
 
     $response->assertOk();
     $response->assertInertia(fn ($page) => $page
-        ->has('tutors', 1)
-        ->where('tutors.0.id', $tutor1->id)
+        ->has('tutors.data', 1)
+        ->where('tutors.data.0.id', $tutor1->id)
     );
 });
 
@@ -46,8 +46,8 @@ test('tutors can be filtered by tag', function () {
 
     $response->assertOk();
     $response->assertInertia(fn ($page) => $page
-        ->has('tutors', 1)
-        ->where('tutors.0.id', $tutor1->id)
+        ->has('tutors.data', 1)
+        ->where('tutors.data.0.id', $tutor1->id)
     );
 });
 
@@ -62,7 +62,7 @@ test('tutors can be filtered by name', function () {
 
     $response->assertOk();
     $response->assertInertia(fn ($page) => $page
-        ->has('tutors', 1)
-        ->where('tutors.0.id', $tutor1->id)
+        ->has('tutors.data', 1)
+        ->where('tutors.data.0.id', $tutor1->id)
     );
 });

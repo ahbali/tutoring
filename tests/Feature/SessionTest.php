@@ -30,7 +30,7 @@ it('shows sessions for a student', function () {
     $response->assertStatus(200);
     $response->assertInertia(fn (Assert $page) => $page
         ->component('sessions/index')
-        ->has('sessions', 1, fn (Assert $page) => $page
+        ->has('sessions.data', 1, fn (Assert $page) => $page
             ->has('id')
             ->has('name')
             ->has('start')
@@ -43,6 +43,7 @@ it('shows sessions for a student', function () {
             ->has('documents_count')
             ->etc()
         )
+        ->has('sessions.links')
     );
 });
 
@@ -63,7 +64,7 @@ it('shows sessions for a tutor', function () {
     $response->assertStatus(200);
     $response->assertInertia(fn (Assert $page) => $page
         ->component('sessions/index')
-        ->has('sessions', 1, fn (Assert $page) => $page
+        ->has('sessions.data', 1, fn (Assert $page) => $page
             ->has('id')
             ->has('name')
             ->has('start')
@@ -76,5 +77,6 @@ it('shows sessions for a tutor', function () {
             ->has('documents_count')
             ->etc()
         )
+        ->has('sessions.links')
     );
 });

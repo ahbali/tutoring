@@ -25,7 +25,8 @@ class TutorController extends Controller
             ->when($request->input('tutor'), function (Builder $query, string $user) {
                 $query->whereRelation('user', 'name', 'like', "%{$user}%");
             })
-            ->get();
+            ->paginate(12)
+            ->withQueryString();
 
         $specialities = Speciality::with('tags')->get();
 

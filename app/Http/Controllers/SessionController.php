@@ -24,10 +24,10 @@ class SessionController extends Controller
             $query->where('student_id', $user->student->id);
         }
 
-        $sessions = $query->orderBy('start', 'desc')->get();
+        $sessions = $query->orderBy('start', 'desc')->paginate(10);
 
         return Inertia::render('sessions/index', [
-            'sessions' => $sessions->map(function ($session) {
+            'sessions' => $sessions->through(function ($session) {
                 return [
                     'id' => $session->id,
                     'name' => $session->name,

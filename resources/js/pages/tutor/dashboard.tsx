@@ -2,7 +2,6 @@ import { show } from '@/actions/App/Http/Controllers/BookingController';
 import { update } from '@/actions/App/Http/Controllers/Tutor/BookingController';
 import Heading from '@/components/heading';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -199,9 +198,6 @@ export default function Dashboard({
                                                         Details
                                                     </Link>
                                                 </Button>
-                                                <Badge variant="outline">
-                                                    Confirmed
-                                                </Badge>
                                             </div>
                                         </div>
                                     ))

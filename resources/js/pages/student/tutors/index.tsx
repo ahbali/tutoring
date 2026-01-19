@@ -1,5 +1,6 @@
 import { index } from '@/actions/App/Http/Controllers/Student/TutorController';
 import Heading from '@/components/heading';
+import Pagination from '@/components/pagination';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -45,12 +46,21 @@ interface Tutor {
     tags: Tag[];
 }
 
+interface PaginatedTutors {
+    data: Tutor[];
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+}
+
 export default function TutorsIndex({
     tutors,
     specialities,
     filters,
 }: {
-    tutors: Tutor[];
+    tutors: PaginatedTutors;
     specialities: Speciality[];
     filters: {
         speciality?: string;
@@ -177,8 +187,8 @@ export default function TutorsIndex({
                         </CardContent>
                     </Card>
 
-                    <div className="grid gap-6 sm:grid-cols-2">
-                        {tutors.length === 0 ? (
+                    <div className="grid gap-6">
+                        {tutors.data.length === 0 ? (
                             <Card className="col-span-full py-12">
                                 <CardContent className="flex flex-col items-center justify-center text-center">
                                     <Users className="mb-4 h-12 w-12 text-muted-foreground/20" />
@@ -199,25 +209,33 @@ export default function TutorsIndex({
                                 </CardContent>
                             </Card>
                         ) : (
-                            tutors.map((tutor) => (
-                                <TutorCard
-                                    key={tutor.id}
-                                    tutor={{
-                                        id: tutor.id,
-                                        name: tutor.user.name,
-                                        country_code:
-                                            tutor.country?.code.toLowerCase(),
-                                        specialities: tutor.specialities.map(
-                                            (s) => s.title,
-                                        ),
-                                        tags: tutor.tags.map((t) => t.title),
-                                        reviews: 0,
-                                        rating: 0,
-                                        lessons: 0,
-                                        image: tutor.user.image,
-                                    }}
-                                />
-                            ))
+                            <>
+                                <div className="grid gap-6 sm:grid-cols-2">
+                                    {tutors.data.map((tutor) => (
+                                        <TutorCard
+                                            key={tutor.id}
+                                            tutor={{
+                                                id: tutor.id,
+                                                name: tutor.user.name,
+                                                country_code:
+                                                    tutor.country?.code.toLowerCase(),
+                                                specialities:
+                                                    tutor.specialities.map(
+                                                        (s) => s.title,
+                                                    ),
+                                                tags: tutor.tags.map(
+                                                    (t) => t.title,
+                                                ),
+                                                reviews: 0,
+                                                rating: 0,
+                                                lessons: 0,
+                                                image: tutor.user.image,
+                                            }}
+                                        />
+                                    ))}
+                                </div>
+                                <Pagination links={tutors.links} />
+                            </>
                         )}
                     </div>
                 </div>
