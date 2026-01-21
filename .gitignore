@@ -33,3 +33,4 @@ guidelines.md
 mcp.json
 
 docker-build.sh
+.env.prod
