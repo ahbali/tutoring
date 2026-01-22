@@ -25,6 +25,10 @@ class DashboardController extends Controller
         $recentTutors = Tutor::query()
             ->whereIn('id', $student->bookings()->select('tutor_id')->distinct())
             ->with(['user', 'country', 'specialities'])
+            ->withCount(['reviews', 'bookings' => function ($query) {
+                $query->where('status', 'confirmed');
+            }])
+            ->withAvg('reviews', 'rating')
             ->limit(3)
             ->get();
 

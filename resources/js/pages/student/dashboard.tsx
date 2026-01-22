@@ -14,7 +14,7 @@ import { index as bookTutor } from '@/routes/booking';
 import { dashboard } from '@/routes/student';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { Calendar, CheckCircle, Clock, Users } from 'lucide-react';
+import { Calendar, CheckCircle, Clock, Star, Users } from 'lucide-react';
 import '/node_modules/flag-icons/css/flag-icons.min.css';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -41,6 +41,9 @@ interface Tutor {
     country?: { code: string };
     specialities: Speciality[];
     tags: Tag[];
+    reviews_count: number;
+    reviews_avg_rating: number | null;
+    bookings_count: number;
 }
 
 interface Booking {
@@ -263,6 +266,17 @@ export default function Dashboard({
                                                             ?.title ||
                                                             'Expert Tutor'}
                                                     </p>
+                                                    {tutor.reviews_avg_rating !==
+                                                        null && (
+                                                        <div className="flex items-center gap-1">
+                                                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                                            <span className="text-xs font-medium">
+                                                                {Number(
+                                                                    tutor.reviews_avg_rating,
+                                                                ).toFixed(1)}
+                                                            </span>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                             <Button

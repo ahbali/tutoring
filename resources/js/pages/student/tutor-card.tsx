@@ -63,7 +63,7 @@ const TutorCard = ({
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-1.5 text-sm font-medium">
                                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                <span>{rating.toFixed(1)}</span>
+                                <span>{Number(rating).toFixed(1)}</span>
                             </div>
                             <span className="text-xs text-muted-foreground">
                                 {reviews} reviews

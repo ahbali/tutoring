@@ -48,4 +48,9 @@ class Tutor extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function reviews(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Review::class, Booking::class);
+    }
 }

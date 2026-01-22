@@ -14,7 +14,7 @@ import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes/tutor';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Calendar, CheckCircle, Clock } from 'lucide-react';
+import { Calendar, CheckCircle, Clock, Star } from 'lucide-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -41,6 +41,8 @@ interface Props {
         total_sessions: number;
         pending_requests: number;
         upcoming_sessions: number;
+        average_rating: number;
+        total_reviews: number;
     };
     pendingBookings: Booking[];
     upcomingBookings: Booking[];
@@ -96,11 +98,11 @@ export default function Dashboard({
                     description="Welcome back! Here's what's happening with your tutoring."
                 />
 
-                <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
-                                Total Sessions
+                                Total Lessons
                             </CardTitle>
                             <CheckCircle className="h-4 w-4 text-green-500" />
                         </CardHeader>
@@ -110,6 +112,22 @@ export default function Dashboard({
                             </div>
                             <p className="text-xs text-muted-foreground">
                                 Total tutoring sessions
+                            </p>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Average Rating
+                            </CardTitle>
+                            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">
+                                {Number(stats.average_rating).toFixed(1)}
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                                Based on {stats.total_reviews} reviews
                             </p>
                         </CardContent>
                     </Card>
@@ -134,7 +152,7 @@ export default function Dashboard({
                             <CardTitle className="text-sm font-medium">
                                 Upcoming Sessions
                             </CardTitle>
-                            <Calendar className="h-4 w-4 text-blue-500" />
+                            <Calendar className="h-4 w-4 text-purple-500" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">

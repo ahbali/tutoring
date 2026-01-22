@@ -34,6 +34,8 @@ class DashboardController extends Controller
             'total_sessions' => $tutor->bookings()->where('status', 'confirmed')->count(),
             'pending_requests' => $pendingBookingsCount,
             'upcoming_sessions' => $upcomingBookingsCount,
+            'average_rating' => round($tutor->reviews()->avg('rating') ?? 0, 1),
+            'total_reviews' => $tutor->reviews()->count(),
         ];
 
         return Inertia::render('tutor/dashboard', [

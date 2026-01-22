@@ -16,6 +16,10 @@ class TutorController extends Controller
     {
         $tutors = Tutor::query()
             ->with(['user', 'country', 'specialities', 'tags'])
+            ->withCount(['reviews', 'bookings' => function ($query) {
+                $query->where('status', 'confirmed');
+            }])
+            ->withAvg('reviews', 'rating')
             ->when($request->input('speciality'), function (Builder $query, string $speciality) {
                 $query->whereRelation('specialities', 'title', $speciality);
             })

@@ -44,6 +44,9 @@ interface Tutor {
     country?: { code: string };
     specialities: Speciality[];
     tags: Tag[];
+    reviews_count: number;
+    reviews_avg_rating: number | null;
+    bookings_count: number;
 }
 
 interface PaginatedTutors {
@@ -226,9 +229,11 @@ export default function TutorsIndex({
                                                 tags: tutor.tags.map(
                                                     (t) => t.title,
                                                 ),
-                                                reviews: 0,
-                                                rating: 0,
-                                                lessons: 0,
+                                                reviews: tutor.reviews_count,
+                                                rating:
+                                                    tutor.reviews_avg_rating ??
+                                                    0,
+                                                lessons: tutor.bookings_count,
                                                 image: tutor.user.image,
                                             }}
                                         />
