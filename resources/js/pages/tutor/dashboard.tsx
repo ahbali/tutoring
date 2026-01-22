@@ -178,9 +178,12 @@ export default function Dashboard({
                         <CardContent>
                             <div className="space-y-6">
                                 {upcomingBookings.length === 0 ? (
-                                    <p className="text-sm text-muted-foreground">
-                                        No upcoming sessions.
-                                    </p>
+                                    <div className="flex flex-col items-center justify-center py-8 text-center">
+                                        <Calendar className="h-12 w-12 text-muted-foreground/20" />
+                                        <p className="mt-2 text-sm text-muted-foreground">
+                                            No upcoming sessions.
+                                        </p>
+                                    </div>
                                 ) : (
                                     upcomingBookings.map((booking) => (
                                         <div
@@ -236,9 +239,12 @@ export default function Dashboard({
                         <CardContent>
                             <div className="space-y-6">
                                 {pendingBookings.length === 0 ? (
-                                    <p className="text-sm text-muted-foreground">
-                                        No pending requests.
-                                    </p>
+                                    <div className="flex flex-col items-center justify-center py-8 text-center">
+                                        <Clock className="h-12 w-12 text-muted-foreground/20" />
+                                        <p className="mt-2 text-sm text-muted-foreground">
+                                            No pending requests.
+                                        </p>
+                                    </div>
                                 ) : (
                                     pendingBookings.map((booking) => (
                                         <div
